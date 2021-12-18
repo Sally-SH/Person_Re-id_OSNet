@@ -14,7 +14,9 @@ datamanager = ImageDataManager(
     width=128,
     batch_size_train=32,
     batch_size_test=100,
-    transforms=['random_flip', 'random_crop']
+    transforms=['random_flip', 'random_crop'],
+    norm_mean=[0.4154, 0.3897, 0.3849],
+    norm_std=[0.1930, 0.1865, 0.1850]
 )
 
 # build OSNet
@@ -24,7 +26,7 @@ model = osnet(
 )
 model = model.cuda()
 
-load_pretrained_weights(model,"./log/osnet/model/model.pth.tar-60")
+#load_pretrained_weights(model,"./log/osnet/model/model.pth.tar-60")
 
 # build optimizer
 optimizer = torch.optim.Adam(
@@ -54,7 +56,7 @@ engine.run(
     max_epoch=60,
     eval_freq=10,
     print_freq=20,
-    test_only=True,
-    visrank=True,
+    test_only=False,
+    visrank=False,
     open_layers='classifier'
 )
